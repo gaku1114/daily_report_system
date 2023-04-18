@@ -11,8 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Data;
@@ -28,6 +30,8 @@ public class Employee {
     private Integer id;
 
     @Column(length = 20, nullable = false)
+    @NotEmpty
+    @Length(max=20)
     private String name;
 
     @Column(name = "delete_flag", nullable = false)

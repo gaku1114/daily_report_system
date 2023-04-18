@@ -9,6 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 import lombok.Data;
 
@@ -22,13 +26,17 @@ public class Authentication {
     }
 
     @Id
+    @NotEmpty
     private String code;
 
     @Column(length = 255, nullable = false)
+    @NotEmpty
+    @Length(max=255)
     private String password;
 
     @Column(length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Role role;
 
     @OneToOne(cascade = CascadeType.ALL)
