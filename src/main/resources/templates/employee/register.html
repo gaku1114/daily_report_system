@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>日報管理システム</title>
+</head>
+<body>
+    <h1>従業員 新規登録ページ</h1>
+    <form method="post" th:action="@{/employee/register}">
+        <label for="code">社員番号</label>
+        <input type="text" th:field="${employee.authentication.code}">
+        <br>
+        <label for="name">名前</label>
+        <input type="text" th:field="${employee.name}">
+        <br>
+        <label for="password">パスワード</label>
+        <input type="text" th:field="${employee.authentication.password}">
+        <br>
+        <label for="role">権限</label>
+        <select th:field="${employee.authentication.role}">
+            <option th:each="item:${T(com.techacademy.entity.Authentication.Role).values()}" th:value="${item}" th:text="${item}">
+        </select>
+        <br>
+        <input type="submit" value="投稿">
+    </form>
+    <a href="/employee/list">一覧に戻る</a>
+</body>
+</html>

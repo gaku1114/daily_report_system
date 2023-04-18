@@ -2,6 +2,7 @@ package com.techacademy.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Data;
@@ -18,6 +20,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "Employee")
+@Where(clause = "delete_flag = 0")
 public class Employee {
 
     @Id
@@ -36,7 +39,7 @@ public class Employee {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy="employee")
+    @OneToOne(mappedBy="employee", cascade = CascadeType.ALL)
     private Authentication authentication;
 
     @PreRemove
