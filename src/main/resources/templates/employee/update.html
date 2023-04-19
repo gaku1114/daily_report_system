@@ -27,6 +27,8 @@
         <br>
         <input type="submit" value="投稿">
     </form>
+    <a th:href="@{/employee/delete/{id}(id=${employee.id})}">この従業員を削除する</a>
+    <br>
     <a href="/employee/list">一覧に戻る</a>
 </body>
 </html>

@@ -37,7 +37,7 @@ public class EmployeeService {
 
     @Transactional
     public void updateEmployee(Integer id, Employee employee) {
-        Employee saveEmployee = employeeRepository.findById(id).orElse(null);
+        Employee saveEmployee = employeeRepository.findById(id).get();
         saveEmployee.setName(employee.getName());
         saveEmployee.setUpdatedAt(LocalDateTime.now());
         saveEmployee.setDeleteFlag(0);
@@ -49,5 +49,11 @@ public class EmployeeService {
         saveAuthentication.setRole(authentication.getRole());
 
         employeeRepository.save(saveEmployee);
+    }
+
+    public void deleteEmployee(Integer id) {
+        Employee employee = employeeRepository.findById(id).get();
+        employee.setDeleteFlag(1);
+        employeeRepository.save(employee);
     }
 }
