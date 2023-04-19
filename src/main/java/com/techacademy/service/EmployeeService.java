@@ -34,8 +34,20 @@ public class EmployeeService {
         authentication.setEmployee(employee);
         employeeRepository.save(employee);
     }
-    
-    public void updateEmployee(Employee employee) {
-        
+
+    @Transactional
+    public void updateEmployee(Integer id, Employee employee) {
+        Employee saveEmployee = employeeRepository.findById(id).orElse(null);
+        saveEmployee.setName(employee.getName());
+        saveEmployee.setUpdatedAt(LocalDateTime.now());
+        saveEmployee.setDeleteFlag(0);
+
+        Authentication saveAuthentication = saveEmployee.getAuthentication();
+        Authentication authentication = employee.getAuthentication();
+        saveAuthentication.setEmployee(saveEmployee);
+        saveAuthentication.setPassword(authentication.getPassword());
+        saveAuthentication.setRole(authentication.getRole());
+
+        employeeRepository.save(saveEmployee);
     }
 }

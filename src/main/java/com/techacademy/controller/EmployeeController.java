@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.techacademy.entity.Authentication;
 import com.techacademy.entity.Employee;
 import com.techacademy.service.EmployeeService;
 
@@ -49,6 +50,22 @@ public class EmployeeController {
             return getRegister(model, employee);
         }
         employeeService.saveEmployee(employee);
+        return "redirect:/employee/list";
+    }
+
+    @GetMapping("/update/{id}")
+    public String getUpdate (@PathVariable(name = "id", required = false) Integer id, Model model) {
+        Employee employee = employeeService.getEmployee(id);
+        model.addAttribute("employee", employee);
+
+        Authentication authentication = employee.getAuthentication();
+        model.addAttribute("authentication", authentication);
+        return "employee/update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String postUpdate (@PathVariable(name = "id") Integer id, Employee employee) {
+        employeeService.updateEmployee(id, employee);
         return "redirect:/employee/list";
     }
 }
