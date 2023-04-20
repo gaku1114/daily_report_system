@@ -12,16 +12,16 @@
     <form method="post" th:action="@{/employee/update/{aid}(aid=${employee.id})}" th:object="${employee}">
         <input type="hidden" th:field="*{id}">
         <label for="code">社員番号</label>
-        <input type="hidden" th:text="${employee.authentication.code}" th:field="*{authentication.code}">
+        <input type="hidden" th:text="*{authentication.code}" th:field="*{authentication.code}">
         <br>
-        <label for="name">名前</label>
-        <input type="text" th:value="${employee.name}" th:field="*{name}">
+        <label for="name">氏名</label>
+        <input type="text" th:value="*{name}" th:field="*{name}">
         <br>
         <label for="password">パスワード</label>
-        <input type="text" th:value="${employee.authentication.password}" th:field="*{authentication.password}">
+        <input type="text" name="password" id="password">
         <br>
         <label for="role">権限</label>
-        <select th:field="*{authentication.role}">
+        <select th:field="*{authentication.role}" id="role">
             <option th:each="item:${T(com.techacademy.entity.Authentication.Role).values()}" th:value="${item}" th:text="${item}">
         </select>
         <br>

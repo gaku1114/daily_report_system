@@ -10,7 +10,7 @@
     <table>
         <tr>
             <th>社員番号</th>
-            <th>名前</th>
+            <th>氏名</th>
             <th>操作</th>
         </tr>
         <tr th:each="employee : ${employeelist}">
@@ -19,6 +19,7 @@
             <td><a th:href="@{/employee/detail/{aid}(aid=${employee.id})}">詳細を見る</a></td>
         </tr>
     </table>
+    <div th:text="|（ 全 ${count} 件 ）|"></div>
     <a th:href="@{/employee/register}">新規従業員の登録</a>
 </body>
 </html>

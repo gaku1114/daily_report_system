@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.techacademy.entity.Authentication;
 import com.techacademy.entity.Employee;
 import com.techacademy.service.EmployeeService;
 
@@ -27,6 +27,7 @@ public class EmployeeController {
     public String getList(Model model) {
         // 全建検索結果をModelに登録
         model.addAttribute("employeelist", employeeService.getEmployeeList());
+        model.addAttribute("count", employeeService.getCount());
         // employee/list.htmlに画面遷移
         return "employee/list";
     }
@@ -54,18 +55,16 @@ public class EmployeeController {
     }
 
     @GetMapping("/update/{id}")
-    public String getUpdate (@PathVariable(name = "id", required = false) Integer id, Model model) {
+    public String getUpdate (@PathVariable(name = "id") Integer id, Model model) {
         Employee employee = employeeService.getEmployee(id);
         model.addAttribute("employee", employee);
 
-        Authentication authentication = employee.getAuthentication();
-        model.addAttribute("authentication", authentication);
         return "employee/update";
     }
 
     @PostMapping("/update/{id}")
-    public String postUpdate (@PathVariable(name = "id") Integer id, Employee employee) {
-        employeeService.updateEmployee(id, employee);
+    public String postUpdate (@PathVariable(name = "id") Integer id, @RequestParam(name="password", required = false) String password, Employee employee) {
+        employeeService.updateEmployee(id, password, employee);
         return "redirect:/employee/list";
     }
 

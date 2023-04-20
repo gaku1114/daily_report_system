@@ -20,6 +20,10 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
+    public long getCount() {
+        return employeeRepository.count();
+    }
+
     public Employee getEmployee(Integer id) {
         return employeeRepository.findById(id).get();
     }
@@ -36,7 +40,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void updateEmployee(Integer id, Employee employee) {
+    public void updateEmployee(Integer id, String password, Employee employee) {
         Employee saveEmployee = employeeRepository.findById(id).get();
         saveEmployee.setName(employee.getName());
         saveEmployee.setUpdatedAt(LocalDateTime.now());
@@ -45,7 +49,9 @@ public class EmployeeService {
         Authentication saveAuthentication = saveEmployee.getAuthentication();
         Authentication authentication = employee.getAuthentication();
         saveAuthentication.setEmployee(saveEmployee);
-        saveAuthentication.setPassword(authentication.getPassword());
+        if(password != "") {
+            saveAuthentication.setPassword(password);
+        }
         saveAuthentication.setRole(authentication.getRole());
 
         employeeRepository.save(saveEmployee);
