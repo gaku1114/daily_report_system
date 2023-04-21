@@ -7,5 +7,9 @@
 <body>
     <h1>日報管理システム</h1>
     <a href="/employee/list">従業員一覧を表示する</a>
+    <br>
+    <form method="post" th:action="@{/logout}">
+        <input type="submit" value="ログアウト">
+    </form>
 </body>
 </html>
