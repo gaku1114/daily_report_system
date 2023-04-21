@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,9 @@ import com.techacademy.repository.EmployeeRepository;
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<Employee> getEmployeeList(){
         return employeeRepository.findAll();
@@ -36,6 +40,7 @@ public class EmployeeService {
 
         Authentication authentication = employee.getAuthentication();
         authentication.setEmployee(employee);
+        authentication.setPassword(passwordEncoder.encode(authentication.getPassword()));
         employeeRepository.save(employee);
     }
 
@@ -48,9 +53,9 @@ public class EmployeeService {
 
         Authentication saveAuthentication = saveEmployee.getAuthentication();
         Authentication authentication = employee.getAuthentication();
-        saveAuthentication.setEmployee(saveEmployee);
         if(password != "") {
-            saveAuthentication.setPassword(password);
+            // パスワードが入力された時のみ、passwordをセットする
+            saveAuthentication.setPassword(passwordEncoder.encode(password));
         }
         saveAuthentication.setRole(authentication.getRole());
 

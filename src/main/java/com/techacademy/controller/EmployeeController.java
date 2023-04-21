@@ -63,7 +63,11 @@ public class EmployeeController {
     }
 
     @PostMapping("/update/{id}")
-    public String postUpdate (@PathVariable(name = "id") Integer id, @RequestParam(name="password", required = false) String password, Employee employee) {
+    public String postUpdate (@PathVariable(name = "id") Integer id, @RequestParam(name="password", required = false) String password, @Validated Employee employee, BindingResult res, Model model) {
+        if(res.hasErrors()) {
+            // エラーあり
+            return getUpdate(id, model);
+        }
         employeeService.updateEmployee(id, password, employee);
         return "redirect:/employee/list";
     }
