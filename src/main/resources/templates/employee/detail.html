@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>日報管理システム</title>
     <link rel="stylesheet" th:href="@{/css/employee/detail.css}">
+    <th:replace th:fragment="header" th:include="header.html"></th:replace>
 </head>
 <body>
     <h1 th:text="|id: ${employee.id} の従業員情報 詳細ページ|"></h1>

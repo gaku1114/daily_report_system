@@ -1,5 +1,8 @@
 package com.techacademy.controller;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,17 +13,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.techacademy.entity.Authentication;
 import com.techacademy.entity.Employee;
+import com.techacademy.service.AuthenticationService;
 import com.techacademy.service.EmployeeService;
 
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
-    private final EmployeeService employeeService;
+    @Autowired
+    private EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService service) {
-        this.employeeService = service;
-    }
+    @Autowired
+    private AuthenticationService authenticationService;
 
     /** 一覧画面を表示 */
     @GetMapping("/list")
@@ -50,6 +55,13 @@ public class EmployeeController {
             // エラーあり
             return getRegister(model, employee);
         }
+        Authentication authentication = employee.getAuthentication();
+        Optional<Authentication> authenticationOptional = authenticationService.findByCode(authentication.getCode());
+        if(authenticationOptional.isPresent() || authentication.getCode() == "" || authentication.getPassword() == "") {
+            // エラーあり
+            return getRegister(model, employee);
+        }
+
         employeeService.saveEmployee(employee);
         return "redirect:/employee/list";
     }

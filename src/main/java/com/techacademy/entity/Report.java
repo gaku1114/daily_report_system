@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -24,12 +27,14 @@ public class Report {
     private Integer id;
 
     @Column(name = "report_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reportDate;
 
     @Column(nullable = false, length = 255)
     private String title;
 
     @Column(nullable = false)
+    @Type(type="text")
     private String content;
 
     @ManyToOne
