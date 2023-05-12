@@ -30,8 +30,8 @@ public class Authentication {
     private String code;
 
     @Column(length = 255, nullable = false)
-    @NotEmpty
     @Length(max=255)
+    @NotEmpty
     private String password;
 
     @Column(length = 10, nullable = false)
